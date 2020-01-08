@@ -1,23 +1,9 @@
-var view = {
-    displayMessage: function (msg) {
-        var messageArea = document.getElementById("messageArea");
-        messageArea.innerHTML = msg;
-    },
-    displayHit: function (location) {
-        var cell = document.getElementById(location);
-        cell.setAttribute("class", "hit");
-    },
-    displayMiss: function (location) {
-        var cell = document.getElementById(location);
-        cell.setAttribute("class", "miss");
-    }
-};
-
 var model = {
     boardSize: 7,
     numShips: 3,
     shipLength: 3,
     shipsSunk: 0,
+
     ships: [
         { locations: [0, 0, 0], hits: ["", "", ""] },
         { locations: [0, 0, 0], hits: ["", "", ""] },
@@ -83,6 +69,7 @@ var model = {
         }
         return newShipLocations;
     },
+
     collision: function (locations) {
         for (var i = 0; i < this.numShips; i++) {
             var ship = this.ships[i];
@@ -93,6 +80,20 @@ var model = {
             }
         }
         return false;
+    }
+};
+var view = {
+    displayMessage: function (msg) {
+        var messageArea = document.getElementById("messageArea");
+        messageArea.innerHTML = msg;
+    },
+    displayHit: function (location) {
+        var cell = document.getElementById(location);
+        cell.setAttribute("class", "hit");
+    },
+    displayMiss: function (location) {
+        var cell = document.getElementById(location);
+        cell.setAttribute("class", "miss");
     }
 };
 
@@ -120,6 +121,7 @@ function parseGuess(guess) {
         var firstChar = guess.charAt(0);
         var row = alphabet.indexOf(firstChar);
         var column = guess.charAt(1);
+
         if (isNaN(row) || isNaN(column)) {
             alert("Oops, that's not on the board");
         } else if (row < 0 || row >= model.boardSize ||
@@ -132,13 +134,13 @@ function parseGuess(guess) {
     return null;
 };
 
-function init() {
-    var fireButton = document.getElementById("fireButton");
-    fireButton.onclick = handleFireButton;
+function handleFireButton() {
     var guessInput = document.getElementById("guessInput");
-    guessInput.onkeypress = handleKeyPress;
-    model.generateShipLocations();
+    var guess = guessInput.value.toUpperCase();
+    controller.processGuess(guess);
+    guessInput.value = "";
 };
+
 function handleKeyPress(e) {
     var fireButton = document.getElementById("fireButton");
     if (e.keyCode === 13) {
@@ -147,11 +149,17 @@ function handleKeyPress(e) {
     }
 };
 
-function handleFireButton() {
-    var guessInput = document.getElementById("guessInput");
-    var guess = guessInput.value;
-    controller.processGuess(guess);
-    guessInput.value = "";
-};
 window.onload = init;
+
+function init() {
+    var fireButton = document.getElementById("fireButton");
+    fireButton.onclick = handleFireButton;
+    var guessInput = document.getElementById("guessInput");
+    guessInput.onkeypress = handleKeyPress;
+    model.generateShipLocations();
+};
+
+
+
+
 
