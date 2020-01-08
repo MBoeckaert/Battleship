@@ -91,13 +91,21 @@ function parseGuess(guess) {
 function init() {
     var fireButton = document.getElementById("fireButton");
     fireButton.onclick = handleFireButton;
+    var guessInput = document.getElementById("guessInput");
+    guessInput.onkeypress = handleKeyPress;
+};
+function handleKeyPress(e) {
+    var fireButton = document.getElementById("fireButton");
+    if (e.keyCode === 13) {
+        fireButton.click();
+        return false;
+    }
 };
 
 function handleFireButton() {
     var guessInput = document.getElementById("guessInput");
     var guess = guessInput.value;
     controller.processGuess(guess);
-
     guessInput.value = "";
 };
 window.onload = init;
