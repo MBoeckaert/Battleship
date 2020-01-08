@@ -1,1 +1,13 @@
-/* No CSS *//*# sourceMappingURL=style.css.map */
+body {
+  background-color: #000000;
+}
+
+#board {
+  position: relative;
+  width: 80vw;
+  height: 75vh;
+  margin: auto;
+  background-image: url("#");
+  background-repeat: no-repeat;
+}
+/*# sourceMappingURL=style.css.map */
