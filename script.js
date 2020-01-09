@@ -8,14 +8,19 @@ var model = {
         { locations: [0, 0, 0], hits: ["", "", ""] },
         { locations: [0, 0, 0], hits: ["", "", ""] },
         { locations: [0, 0, 0], hits: ["", "", ""] }],
+
     fire: function (guess) {
         for (var i = 0; i < this.numShips; i++) {
             var ship = this.ships[i];
             var index = ship.locations.indexOf(guess);
-            if (index >= 0) {
+            if (ship.hits[index] === "hit") {
+                view.displayMessage("Oops, you already hit that location!");
+                return true;
+            } else if (index >= 0) {
                 ship.hits[index] = "hit";
                 view.displayHit(guess);
                 view.displayMessage("HIT!");
+
                 if (this.isSunk(ship)) {
                     view.displayMessage("You Sank My Battleship!");
                     this.shipsSunk++;
@@ -51,12 +56,12 @@ var model = {
         var direction = Math.floor(Math.random() * 2);
         var row;
         var col;
-        if (direction === 1) {
+        if (direction === 1) { //horizontal
             row = Math.floor(Math.random() * this.boardSize);
-            column = Math.floor(Math.random() * (this.boardSize - (this.shipLength + 1)));
+            col = Math.floor(Math.random() * (this.boardSize - (this.shipLength + 1)));
         } else {
             row = Math.floor(Math.random() * (this.boardSize - (this.shipLength + 1)));
-            column = Math.floor(Math.random() * this.boardSize);
+            col = Math.floor(Math.random() * this.boardSize);
 
         }
         var newShipLocations = [];
